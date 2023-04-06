@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            background-color: #e9ebee;
+        }
+        .image-preview{
+            width: 300px;
+            min-height: 300px;
+            border: 2px solid lightslategray;
+            margin-top: 15px;
+        /* default_tex */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #cccccc;
+        }
+        .image-preview__image{
+            display: none;
+            height: 300px;
+            width: 300px;
+        }
+        .container{
+            display: inline-flex;
+            justify-content: space-between;
+            
+        }
+        .result {
+    width: 450px;
+    min-height: 100px;
+    /* border: 2px solid #dddddd; */
+    margin: 15px 0;
+    text-align: center;
+
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    /* color: #cccccc; */
+}
+.buton_1{
+       top:3%;
+       left:15%;
+       width:80spx;
+       height:30px;
+       position: absolute;
+       z-index: 2;
+       background: grey;
+}
+.buton{
+       top:465px;
+       left:330px;
+       width:80px;
+       height:30px;
+       position: absolute;
+       z-index: 2;
+       background: grey; 
+       }
+.kq{
+    width: 120px;
+}
+.kq_2{
+    width: 60px;
+}
+.result_2 {
+    width: 300px;
+    min-height: 100px;
+    /* border: 2px solid #dddddd; */
+    margin: 15px 0;
+    text-align:  right;
+
+    /* display: inline-block; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    font-weight: bold;
+    /* color: #cccccc; */
+}
+
+    </style>
+</head>
+<body>
+    <h1>Pose Comparison</h1>
+    <!-- <form action="/video-0" method="post" enctype="multipart/form-data" id="form_1">
+        <button id="button_1" class="buton_1" type="submit">Video</button>
+    </form> -->
+    <div class="container">
+        <form action="/" method="POST" enctype="multipart/form-data" id="form">
+            <h2>Input</h2>
+            <input type="file" name="image" id="inpFile" accept="image/*">
+            <br>
+            <div class="image-preview" id="imagePreview">
+                <!-- {% if url_for('static', filename= img) != '/static/'%} 
+                <img src={{url_for('static', filename = 'images/'+ img)}} class="image-preview__image">
+                {% else %} -->
+                <img src=""  class="image-preview__image">
+                <!-- {% endif %} -->
+                <span class="image-preview__default-text">Image Preview 1</span>
+            </div>
+            <br>
+            <input type="file" name="image_2" id="inpFile_2" accept="image/*">
+            <div class="image-preview" id="imagePreview_2">
+                <!-- {% if url_for('static', filename= img_2) != '/static/'%} 
+                <img src={{url_for('static', filename = 'images/'+ img_2)}} class="image-preview__image">
+                {% else %} -->
+                <img src =""  class="image-preview__image">
+                <!-- {% endif %} -->
+                <span class="image-preview__default-text_2">Image Preview 2</span>
+
+            </div>
+            <button id="button" class="buton" type="submit">Compare</button>
+        </form>
+        <div class="kq">
+            <!-- <h2>Percentage</h2> -->
+        <div class="kq-1" style="text-align: center; vertical-align: middle; margin-top: 430px;" id="base">
+             
+        </div>
+        </div>
+        <div class="result" id="result">
+            <h2>Image</h2>
+            <br>
+            <img src="data:image/png;base64, {{k1_img}}" width="450px" height="304px">
+            
+            <br><br>
+            <br>
+            <img src="data:image/png;base64, {{k2_img}}" width="450px" height="304px">
+            
+        </div>
+        <div class="kq_2 "></div>
+        <div class="result_2" id="result_2">
+            <h2>Pose Estimation</h2>
+            <br>
+            <img src="data:image/png;base64, {{k3_img}}" width="450px" height="304px">
+            <br><br>
+            <br>
+            <img src="data:image/png;base64, {{k4_img}}" width="450px" height="304px">
+            
+        </div>
+        
+    </div> 
+
+
+    <script>
+        
+        const inpFile = document.getElementById("inpFile");
+        const previewContainer = document.getElementById("imagePreview");
+        const previewImage = previewContainer.querySelector(".image-preview__image");
+        const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+        if (previewImage.getAttribute("src") != "") {
+            previewDefaultText.style.display = "none";
+            previewImage.style.display = "block";
+        }
+        inpFile.addEventListener("change", function(){
+            const file =this.files[0];
+            if(file){
+                const reader = new FileReader();
+
+                previewDefaultText.style.display = "none";
+                previewImage.style.display = "block";
+
+                reader.addEventListener("load", function(){
+                    console.log(this);
+                    previewImage.setAttribute("src", this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+            else {
+                previewDefaultText.style.display = null;
+                previewImage.style.display = null;
+                previewImage.setAttribute("src", "");
+            }
+        });
+        
+        const inpFile_2 = document.getElementById("inpFile_2");
+        const previewContainer_2 = document.getElementById("imagePreview_2");
+        const previewImage_2 = previewContainer_2.querySelector(".image-preview__image");
+        const previewDefaultText_2 = previewContainer_2.querySelector(".image-preview__default-text_2");
+        if (previewImage_2.getAttribute("src") != "") {
+            previewDefaultText_2.style.display = "none";
+            previewImage_2.style.display = "block";
+        }
+        inpFile_2.addEventListener("change", function(){
+            const file_2 =this.files[0];
+            if(file_2){
+                const reader_2 = new FileReader();
+
+                previewDefaultText_2.style.display = "none";
+                previewImage_2.style.display = "block";
+
+                reader_2.addEventListener("load", function(){
+                    console.log(this);
+                    previewImage_2.setAttribute("src", this.result);
+                });
+                reader_2.readAsDataURL(file_2);
+            }else {
+                previewDefaultText_2.style.display = null;
+                previewImage_2.style.display = null;
+                previewImage_2.setAttribute("src", "");
+            }
+        });
+        // form.addEventListener("submit", function () {
+        //     button.disabled = true;
+        //     button.innerHTML = "Detecting...";
+        // });
+        if ('{{color_set}}' === '1'){
+    document.getElementById('base').innerHTML = "<p style='text-align: center; vertical-align: middle;margin-top: 430px;'>{{cosine_smr}}</p>";
+    document.getElementById('base').style='color:green';
+    }
+    else{
+    document.getElementById('base').innerHTML = "<p style='text-align: center; vertical-align: middle;margin-top: 430px;'>{{cosine_smr}}</p>";
+    document.getElementById('base').style='color:red';
+    }
+        
+    </script>
+</body>
+</html>
