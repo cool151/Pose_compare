@@ -184,4 +184,4 @@ def upload_file():
 
     return render_template('flask_4.html', k1_img=input_image_1, k2_img=input_image_2, k3_img= input_image_pic1, k4_img=input_image_pic2, cosine_smr=csn, color_set=color_set)   
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug = True)
+    app.run(debug = True)
