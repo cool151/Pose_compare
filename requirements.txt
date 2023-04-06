@@ -1,6 +1,0 @@
-mediapipe
-opencv-python
-flask
-flask_cors
-numpy
-pybase64
