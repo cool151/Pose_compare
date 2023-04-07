@@ -164,12 +164,16 @@ def upload_file():
         buffer_2 = io.BytesIO()
         file_2.save(buffer_2, "PNG")
         input_image_2=base64.b64encode(buffer_2.getvalue()).decode()
-
+        #convert to cv2 image
         open_cv_image = cv2.cvtColor(np.array(file), cv2.COLOR_RGB2BGR)
         open_cv_image_2 = cv2.cvtColor(np.array(file_2), cv2.COLOR_RGB2BGR)
-        #xu ly anh mediapipe
+        #resize input
+        open_cv_image = cv2.resize(open_cv_image,(400,300))
+        open_cv_image_2 = cv2.resize(open_cv_image_2,(400,300))
+        #process image mediapipe
         pic_1, A = lst_cor(open_cv_image, True)
         pic_2, B = lst_cor(open_cv_image_2, True)
+        #conert image to array for save
         pic_1 = Image.fromarray(np.uint8(pic_1)).convert('RGB')
         pic_2 = Image.fromarray(np.uint8(pic_2)).convert('RGB')
 
